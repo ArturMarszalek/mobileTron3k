@@ -6,6 +6,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {text: ''};
+    this._onPressButton = this._onPressButton.bind(this);
   }
 
   _onPressButton() {
@@ -51,7 +52,7 @@ export default class App extends React.Component {
         "name": "grape"
       }]
     ]
-  
+
     let options = {
       width: 300,
       height: 300,
@@ -113,7 +114,7 @@ export default class App extends React.Component {
           />
 
         <Bar data={data} options={options} accessorKey='v'/>
-  
+
       </View>
     );
   }
