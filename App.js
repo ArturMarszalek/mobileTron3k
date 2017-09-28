@@ -12,6 +12,20 @@ export default class App extends React.Component {
     Alert.alert('You entered id:' + this.state.text +'!')
   }
 
+  fetchData(accountID) {
+      console.log(`Fetching data for ${accountID}`);
+      fetch(`https://12e4f6e9.ngrok.io/api/dashboard/${accountID}`).then(response => {
+        return response.json();
+      }).then(ordersData => {
+        console.log(`Results: --START--`);
+        console.log(ordersData);
+        console.log(`Results: --END--`);
+        this.state.data = ordersData;
+      }).catch(error =>{
+         console.log(error);
+      });
+      return "45335";
+  }
   render() {
 
     let data = [
