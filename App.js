@@ -2,19 +2,29 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 
 export default class App extends React.Component {
-  onstructor(props) {
+  constructor(props) {
     super(props);
     this.state = {text: ''};
   }
+
+  _onPressButton() {
+    Alert.alert('You entered id:' + this.state.text +'!')
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text>Here is MobileTron!</Text>
         <TextInput
-          style={{height: 40}}
+          style={{height: 40, width: 150}}
           placeholder="Type SFL account ID!"
           onChangeText={(text) => this.setState({text})}
         />
+        <Button
+            onPress={this._onPressButton}
+            title="Go for it!"
+            color="#841584"
+          />
       </View>
     );
   }
