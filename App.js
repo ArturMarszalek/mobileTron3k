@@ -24,8 +24,8 @@ export default class App extends React.Component {
       }).catch(error =>{
          console.log(error);
       });
-      return "45335";
   }
+
   render() {
 
     let data = [
