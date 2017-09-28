@@ -103,6 +103,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Text>Here is MobileTron!</Text>
         <TextInput
+          keyboardType = 'numeric'
           style={{height: 40, width: 150}}
           placeholder="Type SFL account ID!"
           onChangeText={(text) => this.setState({text})}
