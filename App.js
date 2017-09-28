@@ -21,7 +21,11 @@ export default class App extends React.Component {
         console.log(`Results: --START--`);
         console.log(ordersData);
         console.log(`Results: --END--`);
-        this.setState({ordersData: ordersData});
+
+        let list = ordersData.map(x => { return [{"v": x.numberOfOrders, "name": x.orderDate}, {"v": x.valueOfOrders, "name": x.orderDate}] });
+        console.log(list);
+
+        this.setState({ordersData: list});
       }).catch(error =>{
          console.log(error);
       });
@@ -113,8 +117,8 @@ export default class App extends React.Component {
             title="Go for it!"
             color="#841584"
           />
-
-        <Bar data={data} options={options} accessorKey='v'/>
+          <Text>{this.state.ordersData ? this.state.ordersData.length : 0}</Text>
+        <Bar data={this.state.ordersData} options={options} accessorKey='v'/>
 
       </View>
     );
