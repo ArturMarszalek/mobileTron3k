@@ -95,7 +95,7 @@ export default class App extends React.Component {
         bottom: 50,
         right: 20
       },
-      color: '#2980B9',
+      color: '#d42024',
       gutter: 20,
       animate: {
         type: 'oneByOne',
@@ -145,7 +145,7 @@ export default class App extends React.Component {
         <Button
             onPress={this._onPressButton}
             title="Go for it!"
-            color="#841584"
+            color="#d42024"
           />
         <Bar data={this.state.ordersData} options={options} accessorKey='v'/>
 
