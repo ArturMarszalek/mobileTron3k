@@ -1,16 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { VictoryBar } from "victory-native";
+import { StyleSheet, Text, View, TextInput, Alert, Button } from 'react-native';
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
+
+  _onPressButton() {
+    Alert.alert('You entered id:' + this.state.text +'!')
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-        
-        <VictoryBar />
+        <Text>Here is MobileTron!</Text>
+        <TextInput
+          style={{height: 40, width: 150}}
+          placeholder="Type SFL account ID!"
+          onChangeText={(text) => this.setState({text})}
+        />
+        <Button
+            onPress={this._onPressButton}
+            title="Go for it!"
+            color="#841584"
+          />
       </View>
     );
   }
