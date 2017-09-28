@@ -1,6 +1,6 @@
 import React from 'react';
-import { VictoryBar } from "victory-native";
 import { StyleSheet, Text, View, TextInput, Alert, Button } from 'react-native';
+import { Bar } from 'react-native-pathjs-charts'
 
 export default class App extends React.Component {
   constructor(props) {
