@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Alert, Button } from 'react-native';
 import { Bar } from 'react-native-pathjs-charts'
+import Moment from 'moment'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class App extends React.Component {
   }
 
   _onPressButton() {
+    this.refs.accountIdInput.blur();
     this.fetchData(this.state.text);
   }
 
@@ -22,10 +24,61 @@ export default class App extends React.Component {
         console.log(ordersData);
         console.log(`Results: --END--`);
 
-        let list = ordersData.map(x => { return [{"v": x.numberOfOrders, "name": x.orderDate}, {"v": x.valueOfOrders, "name": x.orderDate}] });
-        console.log(list);
+          let rangeDays = 7;
 
-        this.setState({ordersData: list});
+          let chartOrders = [
+              Array
+                  .apply(0, Array(rangeDays))
+                  .map((x, y) => {
+                      let date = Moment().startOf("day").subtract(rangeDays - y - 1, "days").valueOf();
+                      let dateText = "";
+
+                      switch (date) {
+                          case Moment().startOf("day").toDate().valueOf():
+                              dateText = "Today";
+                              break;
+                          case Moment().startOf("day").subtract(1, "days").toDate().valueOf():
+                              dateText = "Yesterday";
+                              break;
+                          default:
+                              dateText = Moment(date).format("ddd Do");
+                              break;
+                      };
+
+                      let count = ordersData.filter(i => Moment(i.orderDate).valueOf() === date).map(i => i.numberOfOrders)[0] || 0;
+                      return { v: count, name: dateText };
+                  })
+          ];
+
+          let chartValues = [
+              Array
+                  .apply(0, Array(rangeDays))
+                  .map((x, y) => {
+                      let date = Moment().startOf("day").subtract(rangeDays - y - 1, "days").valueOf();
+                      let dateText = "";
+
+                      switch (date) {
+                          case Moment().startOf("day").toDate().valueOf():
+                              dateText = "Today";
+                              break;
+                          case Moment().startOf("day").subtract(1, "days").toDate().valueOf():
+                              dateText = "Yesterday";
+                              break;
+                          default:
+                              dateText = Moment(date).format("ddd Do");
+                              break;
+                      };
+
+                      let count = ordersData.filter(i => Moment(i.orderDate).valueOf() === date).map(i => i.valueOfOrders)[0] || 0;
+                      return { v: count, name: dateText };
+                  })
+          ];
+
+        // let list = ordersData.map(x => { return [{"v": x.numberOfOrders, "name": Moment(x.orderDate).format("MM-DD")}, {"v": x.valueOfOrders, "name": Moment(x.orderDate).format("MM-DD")}] });
+        console.log(chartOrders);
+
+        this.setState({ordersData: chartOrders});
+        this.setState({orderValues: chartValues});
       }).catch(error =>{
          console.log(error);
       });
@@ -33,33 +86,9 @@ export default class App extends React.Component {
 
   render() {
 
-    let data = [
-      [{
-        "v": 49,
-        "name": "apple"
-      }, {
-        "v": 42,
-        "name": "apple"
-      }],
-      [{
-        "v": 69,
-        "name": "banana"
-      }, {
-        "v": 62,
-        "name": "banana"
-      }],
-      [{
-        "v": 29,
-        "name": "grape"
-      }, {
-        "v": 15,
-        "name": "grape"
-      }]
-    ]
-
     let options = {
       width: 300,
-      height: 300,
+      height: 250,
       margin: {
         top: 20,
         left: 25,
@@ -107,6 +136,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Text>Here is MobileTron!</Text>
         <TextInput
+          ref="accountIdInput"
           keyboardType = 'numeric'
           style={{height: 40, width: 150}}
           placeholder="Type SFL account ID!"
@@ -117,8 +147,9 @@ export default class App extends React.Component {
             title="Go for it!"
             color="#841584"
           />
-          <Text>{this.state.ordersData ? this.state.ordersData.length : 0}</Text>
         <Bar data={this.state.ordersData} options={options} accessorKey='v'/>
+
+        <Bar data={this.state.orderValues} options={options} accessorKey='v'/>
 
       </View>
     );
