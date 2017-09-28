@@ -21,7 +21,7 @@ export default class App extends React.Component {
         console.log(`Results: --START--`);
         console.log(ordersData);
         console.log(`Results: --END--`);
-        this.state.data = ordersData;
+        this.setState({ordersData: ordersData});
       }).catch(error =>{
          console.log(error);
       });
