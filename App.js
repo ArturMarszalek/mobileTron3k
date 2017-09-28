@@ -10,7 +10,7 @@ export default class App extends React.Component {
   }
 
   _onPressButton() {
-    Alert.alert('You entered id:' + this.state.text +'!')
+    this.fetchData(this.state.text);
   }
 
   fetchData(accountID) {
