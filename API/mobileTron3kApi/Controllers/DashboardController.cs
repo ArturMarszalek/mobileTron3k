@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -11,16 +12,18 @@ namespace MobileTron3kApi.Controllers
     public class DashboardController : Controller
     {
         public readonly IConfiguration _configuration;
+        public readonly IHostingEnvironment _hostingEnvironment;
 
-        public DashboardController(IConfiguration configuration)
+        public DashboardController(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet("{accountId}")]
         public async Task<IEnumerable<Models.Summary>> Get(int accountId)
         {
-            var connectionString = ConfigurationExtensions.GetConnectionString(_configuration, "Main");
+            var connectionString = _hostingEnvironment.IsDevelopment() ? _configuration["ConnectionString.Main"] : ConfigurationExtensions.GetConnectionString(_configuration, "Main");
 
             using (var connection = new SqlConnection(connectionString))
             {
